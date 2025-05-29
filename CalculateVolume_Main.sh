@@ -10,6 +10,12 @@ length=$3
     echo "Error: Only integer inputs are supported."
     return 1
   fi
+ 
+  # Validate that all inputs are positive integers only
+  if ! [[ "$height" =~ ^[0-9]+$ && "$width" =~ ^[0-9]+$ && "$length" =~ ^[0-9]+$ ]]; then
+   echo "Error: Only integer inputs are supported."
+   return 1
+  fi
 
   volume=$((height * width * length))
   echo "$volume"

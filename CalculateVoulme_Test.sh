@@ -25,9 +25,22 @@ test_invalid_floating_input() {
   fi
 }
 
+# Test 3: Negative value input
+test_invalid_negative_input() {
+  echo "Running: test_negative_input"
+  output=$(calculateVolume -2 3 4 2>&1)
+  if [[ "$output" == "Error: Only integer inputs are supported." ]]; then
+    echo "[PASS]"
+  else
+    echo "[FAIL] Expected error message, got '$output'"
+  fi
+}
+
+# run the test cases
 run_all_tests() {
   test_valid_input
   test_invalid_floating_input
+  test_invalid_negative_input
 }
 
 run_all_tests
