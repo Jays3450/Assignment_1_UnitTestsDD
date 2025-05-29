@@ -46,12 +46,25 @@ test_zero_input() {
     echo "[FAIL] Expected 0, got '$output'"
   fi
 }
+
+# Test 5: Missing Parameters
+test_missing_parameters() {
+  echo "Running: test_missing_parameters"
+  output=$(calculateVolume 5 6 2>&1)
+  if [[ "$output" == "Error: Exactly 3 parameters (height width length) are required." ]]; then
+    echo "[PASS]"
+  else
+    echo "[FAIL] Expected parameter error, got '$output'"
+  fi
+}
+
 # run the test cases
 run_all_tests() {
   test_valid_input
   test_invalid_floating_input
   test_invalid_negative_input
   test_zero_input
+  test_missing_parameters
 }
 
 run_all_tests
