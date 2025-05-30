@@ -5,19 +5,19 @@ source CalculateVolume_Main.sh
 
 test_valid_input() {
   echo "Running: test_valid_input"
-  output=$(calculateVolume 2 3 4)
+  output=$(calculateVolume 1 2 3)
 
-  if [[ "$output" == "24" ]]; then
+  if [[ "$output" == "6" ]]; then
     echo "[PASS]"
   else
-    echo "[FAIL] Expected 24, got $output"
+    echo "[FAIL] Expected 6, got $output"
   fi
 }
 
-# Test 2: Floating point input
+# Test 1: A Decimal value input
 test_invalid_floating_input() {
   echo "Running: test_invalid_floating_input"
-  output=$(calculateVolume 1.5 2.0 3.0 2>&1)
+  output=$(calculateVolume 1.5 4.0 2.2)
   if [[ "$output" == "Error: Only integer inputs are supported." ]]; then
     echo "[PASS]"
   else
@@ -25,10 +25,10 @@ test_invalid_floating_input() {
   fi
 }
 
-# Test 3: Negative value input
+# Test 2: A Negative value input
 test_invalid_negative_input() {
   echo "Running: test_invalid_negative_input"
-  output=$(calculateVolume -2 3 4 2>&1)
+  output=$(calculateVolume -1 2 3)
   if [[ "$output" == "Error: Only integer inputs are supported." ]]; then
     echo "[PASS]"
   else
@@ -36,7 +36,7 @@ test_invalid_negative_input() {
   fi
 }
 
-# Test 4: A zero value input
+# Test 3: A zero value input
 test_zero_input() {
   echo "Running: test_zero_input"
   output=$(calculateVolume 0 5 3)
@@ -47,10 +47,21 @@ test_zero_input() {
   fi
 }
 
+# Test 4: A non numeric input
+test_non_numeric_input() {
+  echo "Running: test_non_numeric_input"
+  output=$(calculateVolume 2 a 4)
+  if [[ "$output" == *"Error: Only integer inputs are supported."* ]]; then
+    echo "[PASS]"
+  else
+    echo "[FAIL] Expected error for non-numeric input, got $output"
+  fi
+}
+
 # Test 5: Missing Parameters
 test_missing_parameters() {
   echo "Running: test_missing_parameters"
-  output=$(calculateVolume 5 6 2>&1)
+  output=$(calculateVolume 5 6)
   if [[ "$output" == "Error: Exactly 3 parameters (height width length) are required." ]]; then
     echo "[PASS]"
   else
@@ -64,6 +75,7 @@ run_all_tests() {
   test_invalid_floating_input
   test_invalid_negative_input
   test_zero_input
+  test_non_numeric_input
   test_missing_parameters
 }
 
